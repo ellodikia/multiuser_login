@@ -19,7 +19,7 @@ if ($result->num_rows===1){
     $_SESSION ['level'] =$row ['level'];
 
     if ($row ['level'] = "admin") {
-        header ("Location: dahboard_admin.php");
+        header ("Location: dashboard_admin.php");
     } elseif ($row ['level'] = "user") {
         header ("Location: dahboard_user.php");
     } else {
