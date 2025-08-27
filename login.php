@@ -41,12 +41,41 @@ else{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            margin:0;
+            padding:0;
+            font-family:Arial, sans serif;
+            background:linear-gradient(to right, #cccaca, #c00000);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+        h2{
+            text-align:center;
+            color: #960000;
+            padding:20px;
+            margin-bottom:10px;
+        }
+        .login{
+            background-color: whitesmoke;
+            border-radius:15px;
+            padding:20px;
+        }
+    </style>
 </head>
 <body>
     <form action="" method="post">
         <div class="login">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <h2>Login</h2>
+            <label for="">Username</label>
+            <input type="text" name="username" placeholder="Username" required> <br><br>
+            <label for="">Username</label>
+            <input type="password" name="password" placeholder="Password" required><br><br>
             <input type="submit" value="Login">
         </div>
     </form>
