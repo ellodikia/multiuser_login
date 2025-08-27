@@ -4,34 +4,32 @@ session_start();
 include 'koneksi.php';
 
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-$username = trim ($_POST['username']);
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = trim ($_POST['username']);
+    $password = $_POST['password'];
 
 $stmt = $koneksi->prepare("SELECT * FROM users WHERE username=? AND password=?");
 $stmt->bind_param("ss", $username, $password);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows ===1) {
+if ($result->num_rows===1){
     $row = $result->fetch_assoc();
     $_SESSION ['username'] =$row ['username'];
     $_SESSION ['level'] =$row ['level'];
 
-if ($row ['level'] = "admin") {
-    header ("Location: dashboard_admin.php");
-} elseif  ($row ['level'] = "user") {
-    header ("Location: dashboard_user.php");
+    if ($row ['level'] = "admin") {
+        header ("Location: dahboard_admin.php");
+    } elseif ($row ['level'] = "user") {
+        header ("Location: dahboard_user.php");
     } else {
         $error = "Level tidak dikenali";
     }
     exit();
+} else{
+    $error = "Username atau password  salah";
 }
-else{
-    $error = "Username atau password salah";
 }
-}
-
 
 ?>
 
@@ -79,5 +77,8 @@ else{
             <input type="submit" value="Login">
         </div>
     </form>
+    <?php if($error): ?>
+        <p class="error"><?$error?></p>
+    <?php endif; ?>
 </body>
 </html>
