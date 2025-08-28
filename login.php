@@ -63,6 +63,33 @@ if ($_SERVER ['REQUEST_METHOD'] === 'POST'){
             border-radius:15px;
             padding:20px;
         }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding:10px;
+            border-radius:5px;
+            margin-top:4px;
+            outline:none;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus{
+            border-color: #e72f2fff;
+            box-shadow: 0 0 5px rgba(227, 47, 47, 0.5);
+        }
+
+        input[type="submit"]{
+            width: 100%;
+            padding:10px;
+            border-radius:5px;
+            border:none;
+            background-color: #cf1919ff;
+            color: whitesmoke;
+        }
+        input[type="submit"]:hover{
+            background-color: rgb(151, 19, 19);
+            
+        }
+
     </style>
 </head>
 <body>
