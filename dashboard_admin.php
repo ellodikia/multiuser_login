@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+var_dump($_SESSION);
 if (!isset ($_SESSION['username']) || $_SESSION['level'] != 'admin') {
     header ("Location: login.php");
     exit();

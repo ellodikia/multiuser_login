@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if($row ['level'] == "admin") {
         header ("Location: dashboard_admin.php");
-    } elseif ($row ['level'] == "user") {
+    } elseif ($row ['level'] == "users") {
         header ("Location: dashboard_user.php");
     } else {
         $error = "Level tidak ditemukan";
