@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION ['level'] != 'admin') {
+if (!isset ($_SESSION ['username']) || $_SESSION ['level'] != "admin") {
     header ("Location: login.php");
     exit();
 }
@@ -15,8 +15,10 @@ if (!isset($_SESSION['username']) || $_SESSION ['level'] != 'admin') {
     <title>Dashboard Admin</title>
 </head>
 <body>
-    <h1>Selamat datang, <?= $_SESSION ['username']; ?> </h1>
-    <p>Anda login sebagai <b>Admin</b></p>
-    <p><a href="logout.php">Logout</a></p>
+    <div class="side">
+        <h1>Selamat datang, <?= $_SESSION['username'] ?></h1>
+        <p>Anda login sebagai <b>Admin</b></p>
+        <p><a href="logout.php">Logout</a></p>
+    </div>
 </body>
 </html>

@@ -1,11 +1,10 @@
 <?php
 
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION ['level'] !="users"){
+if (!isset ($_SESSION ['username']) || $_SESSION ['level'] != "users") {
     header ("Location: login.php");
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -16,8 +15,10 @@ if (!isset($_SESSION['username']) || $_SESSION ['level'] !="users"){
     <title>Dashboard User</title>
 </head>
 <body>
-    <h1>Selamat datang, <?= $_SESSION['username'] ?></h1>
-    <p>Anda login sebagai <b>User</b></p>
-    <p><a href="logout.php">Logout</a></p>
+    <div class="side">
+        <h1>Selamat datang, <?= $_SESSION['username'] ?></h1>
+        <p>Anda login sebagai <b>User</b></p>
+        <p><a href="logout.php">Logout</a></p>
+    </div>
 </body>
 </html>
