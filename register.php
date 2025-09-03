@@ -5,10 +5,10 @@ include 'koneksi.php';
 $error = '';
 $success = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']) ?? '' ;
+if ($_SERVER ['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']) ?? '';
     $password = $_POST['password'] ?? '';
-    $level    = $_POST['level'] ?? ''; // default level user
+    $level = $_POST['level'] ?? '';
 
     // cek apakah username sudah ada
     $cek = $koneksi->prepare("SELECT * FROM users WHERE username=?");
@@ -16,22 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cek->execute();
     $result = $cek->get_result();
 
-    if ($result->num_rows > 0) {
-        $error = "Username sudah digunakan!";
+    if ($result->num_rows >0){
+        $error = "Username sudah digunakan";
     } else {
-        // simpan username dan password langsung tanpa hashing
         $stmt = $koneksi->prepare("INSERT INTO users (username, password, level) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $password, $level);
-
-        if ($stmt->execute()) {
-            $success = "Registrasi berhasil! Silakan <a href='login.php'>Login</a>";
+        if($stmt->execute()){
+            $success = "Registrasi berhasil silahkan <a href='login.php'>Login</a>";
         } else {
-            $error = "Terjadi kesalahan saat registrasi.";
+            $error = "Ada kesalahan saat registrasi";
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
