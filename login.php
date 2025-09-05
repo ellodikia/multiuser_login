@@ -1,240 +1,58 @@
 <?php
+
 session_start();
-include 'koneksi.php'; // Menghubungkan ke database
+include 'koneksi.php';
 
 $error = "";
-
-// Mengecek apakah form dikirim menggunakan metode POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil input dari user
-    $username = trim($_POST['username']) ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    // Siapkan query untuk mengecek username dan password
     $stmt = $koneksi->prepare("SELECT * FROM users WHERE username=? AND password=?");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Jika ditemukan 1 user dengan username dan password yang cocok
-    if ($result->num_rows === 1) {
+    if ($result->num_rows === 1){
         $row = $result->fetch_assoc();
-
-        // Simpan data ke session
         $_SESSION['username'] = $row['username'];
         $_SESSION['level'] = $row['level'];
 
-        // Redirect berdasarkan level
-        if ($row['level'] === "admin") {
-            header("Location: dashboard_admin.php");
-        } elseif ($row['level'] === "users") {
-            header("Location: dashboard_user.php");
-        } else {
-            $error = "Level tidak dikenali";
-        }
-        exit();
+    if ($row ['level'] == "admin") {
+        header ("Location: dashboard_admin.php");
+    } elseif  ($row ['level'] == "users") {
+        header ("Location: dashboard_user.php");
+    } else {
+        $error = "Level tidak dikenali";
+    }
+    exit();
     } else {
         $error = "Username atau password salah";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Warna dasar */
-        :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --white: #ffffff;
-        }
-
-        /* Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Body */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-light), var(--success));
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Container Login */
-        .login-container {
-            background-color: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            overflow: hidden;
-        }
-
-        /* Header */
-        .login-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 25px 20px;
-            text-align: center;
-        }
-
-        .login-header h2 {
-            font-weight: 600;
-            font-size: 28px;
-        }
-
-        /* Form */
-        .login-form {
-            padding: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .input-with-icon input {
-            padding-left: 45px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #e1e5eb;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        }
-
-        /* Tombol Login */
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-login:hover {
-            background: linear-gradient(to right, var(--secondary), var(--primary));
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Footer */
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--gray);
-        }
-
-        .login-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .login-footer a:hover {
-            color: var(--secondary);
-            text-decoration: underline;
-        }
-
-        /* Pesan Error */
-        .error {
-            background-color: #ffebee;
-            color: #d32f2f;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            border-left: 4px solid #d32f2f;
-        }
-    </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
+    <div class="login">
+        <form action="" method="post">
             <h2>Login</h2>
-        </div>
-        <div class="login-form">
-            <form action="" method="post">
-                <!-- Input Username -->
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <div class="input-with-icon">
-                        <input type="text" name="username" placeholder="Masukkan username" required>
-                    </div>
-                </div>
-
-                <!-- Input Password -->
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-with-icon">
-                        <input type="password" name="password" placeholder="Masukkan password" required>
-                    </div>
-                </div>
-
-                <!-- Tombol Login -->
-                <button type="submit" class="btn-login">Login</button>
-            </form>
-
-            <!-- Pesan Error -->
-            <?php if ($error): ?>
-                <div class="error"><?= $error ?></div>
-            <?php endif; ?>
-
-            <!-- Link ke Register -->
-            <div class="login-footer">
-                <p>Belum punya akun? <a href="register.php">Daftar sekarang</a></p>
-            </div>
-        </div>
+            <label for="">Username</label>
+            <input type="text" name="username" placeholder="Masukkan username"> <br><br>
+            <label for="">Password</label>
+            <input type="password" name="password" placeholder="Masukkan password"> <br><br>
+            <input type="submit" value="Login">
+        </form>
+        <p>Belum punya akun? <a href="register.php">Daftar sekarang</a></p>
+        <?php if($error): ?>
+        <p class="error"><?= $error ?></p>
+        <?php endif; ?>
     </div>
 </body>
 </html>
