@@ -5,8 +5,8 @@ include 'koneksi.php';
 $success = "";
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
+if ($_SERVER['REQUEST_METHOD'] = 'POST'){
+    $username = trim ($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $level    = $_POST['level'] ?? '';
 
@@ -15,18 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cek->execute();
     $result = $cek->get_result();
 
-    if ($result->num_rows > 0){
+    if ($result->num_rows > 0) {
         $error = "Username sudah digunakan";
     } else {
         $stmt = $koneksi->prepare("INSERT INTO users (username, password, level) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $password, $level);
-        if ($stmt->execute()){
+        if ($stmt->execute()) {
             $success = "Registrasi berhasil";
         } else {
-            $error = "Adakah kesalahan saat registrasi";
+            $error = "Terjadi kesalah saar registrasi";
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -34,27 +35,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi</title>
+    <title>Register</title>
 </head>
 <body>
-    <div class="registrasi">
+    <div class="register">
         <form action="" method="post">
-            <h2>Daftar</h2>
             <label for="">Username</label>
-            <input type="text" name="username" placeholder="Masukkan username"> <br><br>
+            <input type="text" name="username" placeholder="Masukkan username" required> <br><br>
             <label for="">Password</label>
-            <input type="password" name="password" placeholder="Masukkan password"> <br><br>
+            <input type="text" name="password" placeholder="Masukkan password" required> <br><br>
             <select name="level" id="">
-                <option value="" disabled select>Pilih</option>
+                <option value="" disable select>Pilih Level</option>
                 <option value="users">User</option>
                 <option value="admin">Admin</option>
             </select>
             <input type="submit" value="Daftar">
         </form>
+        <p>Sudah punya akun? <a href="login.php">Login sekarang</a></p>
+
         <?php if($success): ?>
-            <p class="success"><?= $success ?></p>
+            <p class="error"><?= $success ?></p>
         <?php endif; ?>
-        <?php if($error): ?>
+
+          <?php if($error): ?>
             <p class="error"><?= $error ?></p>
         <?php endif; ?>
     </div>
