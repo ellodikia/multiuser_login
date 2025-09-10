@@ -4,31 +4,32 @@ session_start();
 include 'koneksi.php';
 
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim ($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    $stmt = $koneksi->prepare("SELECT * FROM users WHERE username=? AND password=?");
+    $stmt = $koneksi->prepare ("SELECT * FROM users WHERE username=? AND password=?");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows===1){
+    if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $_SESSION ['username'] = $row ['username'];
         $_SESSION ['level'] = $row ['level'];
 
-        if($row ['level'] == "admin"){
-            header ("Location: dashboard_admin.php");
-        } elseif ($row ['level'] == "users") {
-            header ("Location: dashboard_user.php");
-        } else {
-            $error = "Level tidak dikenali";
-        }
-        exit();
+    if ($row ['level'] == "admin") {
+        header ("Location: dashboard_admin.php");
+    } elseif ($row ['level'] == "users") {
+        header ("Location: dashboard_user.php");
+    } else {
+        $error = "Level tidak dikenali";
+    }
+    exit();
     } else {
         $error = "Username atau password salah";
     }
+
 }
 ?>
 
@@ -41,11 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 <body>
     <div class="login">
+        <h2>Login</h2>
         <form action="" method="post">
             <label for="">Username</label>
-            <input type="text" name="username" placeholder="Masukkan username" required> <br><br>
+            <input type="text" name="username" placdeholder="Masukkan username" required> <br><br>
             <label for="">Password</label>
-            <input type="text" name="password" placeholder="Masukkan password" required> <br><br>
+            <input type="password" name="password" placdeholder="Masukkan password" required> <br><br>
             <input type="submit" value="Login">
         </form>
         <p>Belum punya akun? <a href="register.php">Register sekarang</a></p>
