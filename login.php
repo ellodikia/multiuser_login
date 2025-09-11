@@ -4,33 +4,33 @@ session_start();
 include 'koneksi.php';
 
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER ['REQUEST_METHOD'] === 'POST'){
     $username = trim ($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    $stmt = $koneksi->prepare ("SELECT * FROM users WHERE username=? AND password=?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$stmt = $koneksi->prepare("SELECT * FROM users WHERE username=? AND password=?");
+$stmt->bind_param("ss", $username, $password);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $_SESSION ['username'] = $row ['username'];
-        $_SESSION ['level'] = $row ['level'];
+if ($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    $_SESSION ['username'] = $row ['username'];
+    $_SESSION ['level'] = $row ['level'];
 
-    if ($row ['level'] == "admin") {
-        header ("Location: dashboard_admin.php");
-    } elseif ($row ['level'] == "users") {
-        header ("Location: dashboard_user.php");
-    } else {
-        $error = "Level tidak dikenali";
-    }
-    exit();
-    } else {
-        $error = "Username atau password salah";
-    }
-
+if ($row ['level'] == "admin") {
+    header ("Location: dashboard_admin.php");
+} elseif ($row ['level'] == "users") {
+    header ("Location: dashboard_users.php");
+} else {
+    $error = "Level tidak dikenali";
 }
+exit();
+} else {
+    $error = "Username atau password salah";
+}
+}
+
 ?>
 
 <!DOCTYPE html>
